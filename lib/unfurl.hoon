@@ -6,15 +6,48 @@
     ==
   ++  desc
     :~
-      "twitter:description"
       "og:description"
+      "twitter:description"
     ==
   ++  imag
     :~
-      "twitter:image"
       "og:image"
+      "twitter:image"
     ==
-  ++  meta  {titl/(unit @t) desc/(unit @t) imag/(unit @t)}
+  ++  type
+    :~
+      "twitter:card"
+    ==
+  :: do we need size?
+  ++  play
+    :~
+      "og:video:url"
+      "twitter:player"
+    ==
+  ++  pwid
+    :~
+      "og:video:width"
+      "twitter:player:width"
+    ==
+  ++  phei
+    :~
+      "og:video:height"
+      "twitter:player:height"
+    ==
+  ++  url
+    :~
+      "og:url"
+      "twitter:url"
+    ==
+  ++  meta  
+    $:  titl/(unit @t) 
+        desc/(unit @t) 
+        imag/(unit @t) 
+        play/(unit @t) 
+        pwid/(unit @t) 
+        phei/(unit @t) 
+        url/(unit @t)
+    ==
   ::++  entry  (pair schemes/(list tape) endpoint/tape)
   ::++  oembed-map  (map tape entry)
   ::++  find-string
@@ -125,7 +158,28 @@
       title+[%s (fall titl.a '')]
       description+[%s (fall desc.a '')]
       image+[%s (fall imag.a '')]
+      player+[%s (fall play.a '')]
+      player-width+[%s (fall pwid.a '')]
+      player-height+[%s (fall phei.a '')]
+      url+[%s (fall url.a '')]
     ==
+  ++  is-image
+    |=  a/purl
+    ^-  ?
+    =*  ext  p.q.a
+    ?~  ext  |
+      ?:  ?|  =('jpg' (fall ext ''))
+              =('jpeg' (fall ext ''))
+              =('png' (fall ext ''))
+              =('gif' (fall ext ''))
+              =('tiff' (fall ext ''))
+              =('JPG' (fall ext ''))
+              =('JPEG' (fall ext ''))
+              =('PNG' (fall ext ''))
+          ==
+          &
+      |
+  ::
   ++  metatape
     |=  a/meta
     ^-  tape
@@ -134,7 +188,15 @@
     |=  htm/octs
     ^-  (unit meta)
     =/  tmp  (find-all-tags (trip q.htm) "<meta" ">")
-    `[(get-prop tmp titl) (get-prop tmp desc) (get-prop tmp imag)]
+    %-  some
+    :*  (get-prop tmp titl) 
+        (get-prop tmp desc) 
+        (get-prop tmp imag)
+        (get-prop tmp play)
+        (get-prop tmp pwid)
+        (get-prop tmp phei)
+        (get-prop tmp url)
+    ==
   ::  return all meta tags
   ++  get-meta
     |=  co/@t
