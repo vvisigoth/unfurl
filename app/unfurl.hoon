@@ -38,8 +38,18 @@
             :: this is atrocious and terrible
             :: conslidate all meta libs
             [ost.hid (send-talk [%app %unfurl (crip (metatape:unfurl (need (metadata:unfurl u.body))))])]
-++  talk-sub  [%peer /talk [our.hid %talk] /f/[(main:talk our.hid)]/(scot %da now.hid)]
 ::
+++  talk-sub  
+  :^    %peer 
+      /talk 
+    [our.hid %talk] 
+  /f/[(main:talk our.hid)]/(scot %da now.hid)
+::
+++  talk-unsub
+  :^    %pull
+      /talk
+    [our.hid %talk] 
+  ~
 ++  send-talk
   |=  sep/speech:talk
   ^-  card
@@ -66,19 +76,18 @@
   ?+  -.spee  [~ +>.$]
     $url  (send-req /(scot %uvh seri) p.p.spee)
   ==
+::
 ++  send-req
   |=  {wir/wire prul/purl}
   ^-  (quip move +>.$)
   :_  +>.$  :_  ~  [ost.hid %hiss wir ~ %httr %purl prul]
+::
 ++  poke-noun
-  |=  {wi/wire turl/@t}
+  |=  cmd/@tas
   ^-  (quip move +>.$)
-  =+  ^=  url
-  %-  epur
-  turl
-  ?~  url
-    [~ +>.$]
-  :_  +>.$  ~[[ost.hid talk-sub] [ost.hid %hiss wi ~ %httr %purl u.url]]
+  ?:  =(cmd %listen)
+    :_  +>.$  ~[[ost.hid talk-sub]]
+  :_  +>.$  ~[[ost.hid talk-unsub]]
 ::
 ++  diff-talk-report                                    ::>  accept talk report
   |=  {wir/wire rep/report:talk}
