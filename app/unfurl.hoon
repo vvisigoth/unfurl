@@ -63,6 +63,28 @@
         [[[%& our.hid (main:talk our.hid)] *envelope:talk %pending] ~ ~]
       [now.hid *bouquet:talk sep]
   ==
+::
+++  send-image
+  |=  a/purl
+  ^-  (quip move +>.$)
+  :_  +>.$
+  :_  ~
+  :-  ost.hid
+  %-  send-talk 
+  :+  %app 
+    %unfurl 
+  %-  crip 
+  %-  pojo 
+  %-  meta2json:unfurl
+  :*  (some '')
+      (some '')
+      (some (crip (earn a)))
+      (some '')
+      (some '')
+      (some '')
+      (some '')
+  ==
+::
 ++  proc-grams
   |=  grams/(list telegram:talk)
   ^-  (quip move +>.$)
@@ -74,7 +96,9 @@
   ::~&  (my [[our.hid (main:talk our.hid)] *envelope:talk %pending] ~ )
   =*  spee  r.r.q.gram
   ?+  -.spee  [~ +>.$]
-    $url  (send-req /(scot %uvh seri) p.p.spee)
+    $url  ?:  (is-image:unfurl p.p.spee) 
+            (send-image p.p.spee)
+          (send-req /(scot %uvh seri) p.p.spee)
   ==
 ::
 ++  send-req
