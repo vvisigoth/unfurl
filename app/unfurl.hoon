@@ -10,12 +10,13 @@
         {$hiss wire $~ $httr {$purl p/purl}}
         {$poke wire {@p term} $talk-command command:talk} ::<  talk-command poke
         {$peer wire dock path}                            ::<  start subscription
+        {$pull wire dock $~}
         {$null $~}
     ==
   ++  move  {bone card}                                  
 --                                               
-|_  {hid/bowl state/{subbed/? aud/audience:talk}}
-++  sigh-httr-oembed
+|_  {hid/bowl state/{subbed/? aud/audience:talk tried/?}}
+++  sigh-httr-oembed                                    ::< receive oembed response
   |=  {wir/wire code/@ud headers/mess body/(unit octs)}
   ^-  (quip move +>.$)
   =/  a  (extract-html:unfurl (trip q:(need body)))
@@ -33,11 +34,10 @@
   |=  {wir/wire code/@ud headers/mess body/(unit octs)}
   ^-  (quip move +>.$)
   ?~  body  [~ +>.$]
-  ::[~ +>.$]
+  =/  md  (metadata:unfurl -.wir u.body)
+  ?~  md  [~ +>.$]
   :_  +>.$  :_  ~  
-            :: this is atrocious and terrible
-            :: conslidate all meta libs
-            [ost.hid (send-talk [%app %unfurl (crip (metatape:unfurl (need (metadata:unfurl u.body))))])]
+            [ost.hid (send-talk [%app %unfurl (crip (metatape:unfurl (need md)))])]
 ::
 ++  talk-sub  
   :^    %peer 
@@ -60,12 +60,13 @@
       :-  %publish
       :_  ~
       :+  (shaf %thot eny.hid)
+        :: porch
         [[[%& our.hid (main:talk our.hid)] *envelope:talk %pending] ~ ~]
       [now.hid *bouquet:talk sep]
   ==
 ::
 ++  send-image
-  |=  a/purl
+  |=  {b/@t a/purl}
   ^-  (quip move +>.$)
   :_  +>.$
   :_  ~
@@ -83,6 +84,7 @@
       (some '')
       (some '')
       (some '')
+      `b
   ==
 ::
 ++  proc-grams
@@ -92,12 +94,10 @@
   =*  gram  i.grams
   =*  seri  p.gram
   =.  aud.state  q.q.gram
-  ::~&  aud.state
-  ::~&  (my [[our.hid (main:talk our.hid)] *envelope:talk %pending] ~ )
   =*  spee  r.r.q.gram
   ?+  -.spee  [~ +>.$]
     $url  ?:  (is-image:unfurl p.p.spee) 
-            (send-image p.p.spee)
+            (send-image (scot %uvh seri) p.p.spee)
           (send-req /(scot %uvh seri) p.p.spee)
   ==
 ::
@@ -116,7 +116,6 @@
 ++  diff-talk-report                                    ::>  accept talk report
   |=  {wir/wire rep/report:talk}
   ^-  (quip move +>.$)
-  ::[~ +>.$]
   ?+  -.rep  [~ +>.$]
     $grams  (proc-grams q.rep)
   ==

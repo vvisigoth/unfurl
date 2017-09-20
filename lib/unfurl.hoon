@@ -47,59 +47,38 @@
         pwid/(unit @t) 
         phei/(unit @t) 
         url/(unit @t)
+        seri/(unit @t)
     ==
-  ::++  entry  (pair schemes/(list tape) endpoint/tape)
-  ::++  oembed-map  (map tape entry)
-  ::++  find-string
-  ::  |=  st/tape
-  ::  =/  oema/oembed-map
-  ::  %-  my
-  ::  :~  :-  "test"
-  ::      "this"
-  ::      :-  "https://reddit.com/"
-  ::      :-  :_  ~
-  ::          "https://reddit.com/r/*/comments/*/*"
-  ::      "https://www.reddit.com/oembed"
-  ::      ::
-  ::      :-  "https://www.nytimes.com"
-  ::      :-  :~  "https://www.nytimes.com/svc/oembed"
-  ::              "https://nytimes.com/*"
-  ::              "https://*.nytimes.com/*"
-  ::          ==
-  ::      "https://www.nytimes.com/svc/oembed/json/"
-  ::  ==
-  ::  (~(get by oema) st)
-  ::  tape -> (unit {start stop})
   ::  find arbitrary tags
   ++  get-prop
-    |=  {nl/(list marx) props/(list tape)}
-    =/  b/(unit @t)  ~
+    |=  {nodelist/(list marx) props/(list tape)}
+    =/  out/(unit @t)  ~
     ^-  (unit @t)
     |-  
-    ?~  nl  b
+    ?~  nodelist  out
     ::
     %=  $
-      b   =/  x  %+  gp 
-                -.nl 
+      out   =/  x  %+  grab-prop 
+                -.nodelist 
               props
-          ?~  x  b  (bind x crip)
-      nl  +.nl
+          ?~  x  out  (bind x crip)
+      nodelist  +.nodelist
     ==
-  ++  gp
-    |=  {n/marx props/(list tape)}
+  ++  grab-prop
+    |=  {node/marx props/(list tape)}
     =/  q/?  |
-    =/  b/tape  ~
+    =/  out/tape  ~
     ^-  (unit tape)
     |-
-    ?~  a.n  ?:(q `b ~)
+    ?~  a.node  ?:(q `out ~)
     %=  $
-      a.n  +.a.n
-      q   ?~  (find ~[v.i:-.a.n] props)
+      a.node  +.a.node
+      q   ?~  (find ~[v.i:-.a.node] props)
             q
           &
-      b   ?:  ?=({$content *} -.a.n)
-            ->.a.n
-          b
+      out   ?:  ?=({$content *} -.a.node)
+            ->.a.node
+          out
     ==
   ++  parse-tag
     |=  a/@
@@ -162,6 +141,7 @@
       player-width+[%s (fall pwid.a '')]
       player-height+[%s (fall phei.a '')]
       url+[%s (fall url.a '')]
+      serial+[%s (fall seri.a '')]
     ==
   ++  is-image
     |=  a/purl
@@ -184,24 +164,41 @@
     |=  a/meta
     ^-  tape
     (pojo (meta2json a))
+  ::
+  ::
   ++  metadata
-    |=  htm/octs
+    |=  {ser/@t htm/octs}
     ^-  (unit meta)
     =/  tmp  (find-all-tags (trip q.htm) "<meta" ">")
+    ::  identify empties here
+    =/  t  (get-prop tmp titl) 
+    =/  d  (get-prop tmp desc) 
+    =/  i  (get-prop tmp imag)
+    =/  p  (get-prop tmp play)
+    :: test
+    ?:  ?&  ?=($~ (fall t ~))
+            ?=($~ (fall d ~))
+            ?=($~ (fall i ~))
+            ?=($~ (fall p ~))
+        ==
+        ~
     %-  some
-    :*  (get-prop tmp titl) 
-        (get-prop tmp desc) 
-        (get-prop tmp imag)
-        (get-prop tmp play)
+    :*
+        t
+        d
+        i
+        p
         (get-prop tmp pwid)
         (get-prop tmp phei)
         (get-prop tmp url)
+        `ser
     ==
   ::  return all meta tags
   ++  get-meta
     |=  co/@t
     ^-  (unit manx)
     (poxa co)
+  :: used for oembed
   ++  find-html
     |=  st/tape
     ^-  (unit (pair @u @u))
