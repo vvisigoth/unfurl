@@ -1,4 +1,4 @@
-#Link Unfurling For WebTalk
+# Link Unfurling For WebTalk
 
 This library and associated modification to the webtalk front-end will unfurl incoming links, giving 
 you previews of links and expanding images and youtube videos.
@@ -10,7 +10,7 @@ where it is formatted by a modified version of webtalk.
 
 ![screenshot](https://i.imgur.com/i1eCgyB.png)
 
-##Setup
+## Setup
 
 1. Install `%gall` application
 
@@ -30,8 +30,10 @@ somewhere civilized
 - Copy the contents of this repo's /web/talk into your ship's <your ship>/home/web/talk
 - If you'd like to poke around at some very poorly written coffeescript, check here http://www.github.com/vvisigoth/talk/tree/unfurl
 
-##TODO
+## TODO
+
 *includes interface issues*
+
 [ ] 302
 [ ] feed style
 [ ] include oembed call
