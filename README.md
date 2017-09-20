@@ -8,6 +8,7 @@ for unfurling, it checks the url to see if there is available metadata, or other
 The resulting metadata is then inserted into your porch (invisible to the rest of the `%talk` channel), 
 where it is formatted by a modified version of webtalk. 
 
+![screenshot](https://i.imgur.com/i1eCgyB.png)
 
 ##Setup
 
