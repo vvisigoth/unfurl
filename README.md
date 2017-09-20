@@ -34,20 +34,20 @@ somewhere civilized
 
 *includes interface issues*
 
-[ ] 302
-[ ] feed style
-[ ] include oembed call
-[ ] unfurl not a separate message
-[ ] refactor hoon lib
-[x] second size
-[x] multi-type: image w/caption, link prev, video player
-[x] mobile(tall) view
-[x] measure width at list level
-[x] serial in json
-[x] eat empties
-[x] iframe player
-[x] title format
-[x] max description
-[x] easy start/stop
-[x] own component 
-[x] handle images at lib level
+- [ ] 302
+- [ ] feed style
+- [ ] include oembed call
+- [ ] unfurl not a separate message
+- [ ] refactor hoon lib
+- [x] second size
+- [x] multi-type: image w/caption, link prev, video player
+- [x] mobile(tall) view
+- [x] measure width at list level
+- [x] serial in json
+- [x] eat empties
+- [x] iframe player
+- [x] title format
+- [x] max description
+- [x] easy start/stop
+- [x] own component 
+- [x] handle images at lib level
